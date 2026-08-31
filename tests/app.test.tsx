@@ -4,6 +4,7 @@ import App from "../src/App";
 import { ConfigPanel } from "../src/components/ConfigPanel";
 import { OutputToolbar } from "../src/components/OutputToolbar";
 import { EMPTY_CONFIG, loadConfigCollapsed, saveConfigCollapsed } from "../src/lib/config";
+import { PROVIDER_LINKS } from "../src/lib/provider-links";
 
 vi.mock("../src/lib/api", async () => {
   const actual = await vi.importActual<typeof import("../src/lib/api")>("../src/lib/api");
@@ -115,8 +116,41 @@ describe("config panel", () => {
     expect(screen.getByRole("heading", { name: "AI口播对口型配置" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "AI文案配置" })).toBeInTheDocument();
     expect(screen.getByText("火山引擎")).toBeInTheDocument();
-    expect(screen.getByText("阿里百炼")).toBeInTheDocument();
+    expect(screen.getByText("阿里百炼 CosyVoice")).toBeInTheDocument();
+    expect(screen.getByText("阿里百炼 VideoRetalk")).toBeInTheDocument();
     expect(screen.getByLabelText("App ID")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "打开 CosyVoice 配音产品" })).toHaveAttribute(
+      "href",
+      PROVIDER_LINKS.dashscopeTtsProduct,
+    );
+    expect(screen.getByRole("link", { name: "去申请配音 API Key" })).toHaveAttribute(
+      "href",
+      PROVIDER_LINKS.dashscopeApiKey,
+    );
+    expect(screen.getByRole("link", { name: "打开 VideoRetalk 对口型产品" })).toHaveAttribute(
+      "href",
+      PROVIDER_LINKS.videoretalkProduct,
+    );
+    expect(screen.getByRole("link", { name: "去申请对口型 API Key" })).toHaveAttribute(
+      "href",
+      PROVIDER_LINKS.dashscopeApiKey,
+    );
+    expect(screen.getByRole("link", { name: "打开 DeepSeek 开放平台" })).toHaveAttribute(
+      "href",
+      PROVIDER_LINKS.deepseekPlatform,
+    );
+    expect(screen.getByRole("link", { name: "去申请 API Key" })).toHaveAttribute(
+      "href",
+      PROVIDER_LINKS.deepseekApiKeys,
+    );
+    expect(screen.getByRole("link", { name: "打开语音合成产品" })).toHaveAttribute(
+      "href",
+      PROVIDER_LINKS.volcengineTtsProduct,
+    );
+    expect(screen.getByRole("link", { name: "去申请 App ID / Token" })).toHaveAttribute(
+      "href",
+      PROVIDER_LINKS.volcengineTtsApply,
+    );
   });
 
   it("persists collapsed state", () => {

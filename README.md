@@ -22,9 +22,18 @@
 
 1. [Node.js](https://nodejs.org/) 20 或更高
 2. 本机已安装 [FFmpeg](https://ffmpeg.org/) 和 ffprobe，并且能在终端里直接运行 `ffmpeg`、`ffprobe`
-3. [阿里百炼](https://bailian.console.aliyun.com/) VideoRetalk API Key：出片对口型必填，在「AI口播对口型配置」里单独填
-4. （可选）阿里百炼 CosyVoice API Key，或 [火山引擎](https://www.volcengine.com/) 语音合成的 App ID 和 Access Token；两家 TTS 都可以填，出片时在配音区选择用哪一家。配音 Key 和对口型 Key 分开配置，可以用同一把，也可以用另一把
-5. （可选）[DeepSeek](https://platform.deepseek.com/) API Key，用来根据主题生成 1 条口播文案；不填也可以手写后出片
+3. 下面这些密钥。打开页面里的「配置」也能看到同样的申请入口。
+
+### 要申请什么 Key、去哪里申请
+
+| 用途 | 申请什么 | 去哪里申请 | 是否必填 |
+| --- | --- | --- | --- |
+| 对口型 | 阿里百炼 **VideoRetalk** 的 API Key（华北2 / 北京地域，以 `sk-` 开头） | [产品介绍](https://help.aliyun.com/zh/model-studio/videoretalk/) · [密钥管理](https://bailian.console.aliyun.com/?tab=model#/api-key) | 出片必填，填到「AI口播对口型配置」 |
+| 配音（百炼） | 阿里百炼 **CosyVoice** 的 API Key（以 `sk-` 开头） | [产品介绍](https://help.aliyun.com/zh/model-studio/tts-model/) · [密钥管理](https://bailian.console.aliyun.com/?tab=model#/api-key) | 配音两家选一家即可。填到「AI配音配置」 |
+| 配音（火山） | 火山引擎语音合成的 **App ID** 和 **Access Token** | [产品介绍](https://www.volcengine.com/product/tts) · [控制台申请](https://console.volcengine.com/speech/service/8) | 配音两家选一家即可。填到「AI配音配置」 |
+| 文案 | DeepSeek **API Key**（以 `sk-` 开头） | [开放平台](https://platform.deepseek.com/) · [创建 API Key](https://platform.deepseek.com/api_keys) | 可选。不填也可以手写口播文案 |
+
+百炼的配音 Key 和对口型 Key 分开填：可以用同一把，也可以用另一把。出片时在配音区选择用火山还是百炼。
 
 本机还需要能访问你实际用到的接口：
 
@@ -59,7 +68,7 @@ npm start
 
 ## 怎么用
 
-1. 打开「配置」：在「AI口播对口型配置」填写百炼 VideoRetalk Key；要用百炼或火山配音、AI 写文案时再填对应凭证。点「测试」确认连通。
+1. 打开「配置」：在「AI口播对口型配置」填写百炼 VideoRetalk Key；要用百炼或火山配音、AI 写文案时再填对应凭证。每个卡片上有产品介绍和申请入口，点「测试」确认连通。
 2. 在 ①「口播真人视频」添加一段真人正面近景：脸清楚即可，不用念台词；不要侧脸、远景、多人或脸被挡住。没有现成片子时，可用仓库里的 [demos/talking-head-cn.mp4](./demos/talking-head-cn.mp4)。视频素材在独立面板里添加，某句要换画面时拖到④对应字幕右侧。工具引用本机原路径，不把文件复制进项目。可选在 ③ 添加一首 BGM。
 3. 在 ② 选择火山或百炼，再选音色。密钥在「配置」里填，这里只选音色。
 4. 在 ④ 选「AI 生成」或「手动填写」其中一种。AI 生成可先选成片时长（15 / 30 / 45 / 60 秒，也可自定义 10–60 秒），再填主题。某句要切画面时，点该句右侧画面格选素材，或把视频素材拖过去。

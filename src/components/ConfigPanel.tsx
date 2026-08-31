@@ -8,8 +8,22 @@ import {
   isVolcengineConfigured,
   type AppConfig,
 } from "@/lib/config";
+import { PROVIDER_LINKS } from "@/lib/provider-links";
 import { SecretField } from "./SecretField";
 import { Button, Card, Input, Label } from "./ui";
+
+function ApplyLink({ href, children }: { href: string; children: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="text-[11px] font-medium text-primary underline underline-offset-2"
+    >
+      {children}
+    </a>
+  );
+}
 
 export function ConfigFields({
   config,
@@ -47,7 +61,11 @@ export function ConfigFields({
             <div>
               <h4 className="text-sm font-medium">火山引擎</h4>
               <p className="mt-0.5 text-[11px] leading-4 text-muted-foreground">
-                在火山引擎控制台开通语音合成后，把 App ID 和 Access Token 填在这里。
+                开通「语音合成」后，在控制台创建应用，把 App ID 和 Access Token 填在这里。
+              </p>
+              <p className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+                <ApplyLink href={PROVIDER_LINKS.volcengineTtsProduct}>打开语音合成产品</ApplyLink>
+                <ApplyLink href={PROVIDER_LINKS.volcengineTtsApply}>去申请 App ID / Token</ApplyLink>
               </p>
             </div>
             <div>
@@ -88,9 +106,13 @@ export function ConfigFields({
           </div>
           <div className="space-y-3 rounded-lg border border-border bg-muted/20 p-3">
             <div>
-              <h4 className="text-sm font-medium">阿里百炼</h4>
+              <h4 className="text-sm font-medium">阿里百炼 CosyVoice</h4>
               <p className="mt-0.5 text-[11px] leading-4 text-muted-foreground">
-                只用于 CosyVoice 配音。对口型请到下面单独填写。配好后可在「② 配音」切换到百炼音色。
+                只用于 CosyVoice 配音。开通该产品后，到百炼密钥管理创建 API Key。对口型请到下面单独填写。
+              </p>
+              <p className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+                <ApplyLink href={PROVIDER_LINKS.dashscopeTtsProduct}>打开 CosyVoice 配音产品</ApplyLink>
+                <ApplyLink href={PROVIDER_LINKS.dashscopeApiKey}>去申请配音 API Key</ApplyLink>
               </p>
             </div>
             <SecretField
@@ -134,7 +156,11 @@ export function ConfigFields({
           <div>
             <h4 className="text-sm font-medium">阿里百炼 VideoRetalk</h4>
             <p className="mt-0.5 text-[11px] leading-4 text-muted-foreground">
-              在百炼控制台开通 VideoRetalk 后，把对应 API Key 填在这里。
+              开通「声动人像 VideoRetalk」后，用华北2（北京）地域的 API Key。和上面的配音 Key 可以是同一把，也可以分开。
+            </p>
+            <p className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+              <ApplyLink href={PROVIDER_LINKS.videoretalkProduct}>打开 VideoRetalk 对口型产品</ApplyLink>
+              <ApplyLink href={PROVIDER_LINKS.dashscopeApiKey}>去申请对口型 API Key</ApplyLink>
             </p>
           </div>
           <SecretField
@@ -168,7 +194,11 @@ export function ConfigFields({
           <div>
             <h4 className="text-sm font-medium">DeepSeek</h4>
             <p className="mt-0.5 text-[11px] leading-4 text-muted-foreground">
-              填了 API Key 才能用「AI 生成」文案；密钥只留在这台电脑的浏览器里。
+              在 DeepSeek 开放平台创建 API Key，才能用「AI 生成」文案。密钥只留在这台电脑的浏览器里。
+            </p>
+            <p className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+              <ApplyLink href={PROVIDER_LINKS.deepseekPlatform}>打开 DeepSeek 开放平台</ApplyLink>
+              <ApplyLink href={PROVIDER_LINKS.deepseekApiKeys}>去申请 API Key</ApplyLink>
             </p>
           </div>
           <SecretField
