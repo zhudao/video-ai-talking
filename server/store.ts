@@ -184,11 +184,12 @@ export function createStore(rootDir: string) {
   async function importFiles(
     inputPaths: string[],
     opts?: { kinds?: MaterialKind[] },
-  ): Promise<{ added: MaterialRecord[]; skipped: number; truncated: boolean }> {
+  ): Promise<{ added: MaterialRecord[]; reused: MaterialRecord[]; skipped: number; truncated: boolean }> {
     const allowed = opts?.kinds && opts.kinds.length > 0 ? new Set(opts.kinds) : null;
     const existing = await readMaterials();
     const known = new Set(existing.flatMap((item) => (item.sourcePath ? [item.sourcePath] : [])));
     const added: MaterialRecord[] = [];
+    const reused: MaterialRecord[] = [];
     let skipped = 0;
     let truncated = false;
 
@@ -218,7 +219,12 @@ export function createStore(rootDir: string) {
         continue;
       }
       if (known.has(resolved)) {
-        skipped += 1;
+        const already = existing.find((item) => item.sourcePath === resolved);
+        if (already && (!allowed || allowed.has(already.kind))) {
+          if (!reused.some((item) => item.id === already.id)) reused.push(already);
+        } else {
+          skipped += 1;
+        }
         continue;
       }
       const record: MaterialRecord = {
@@ -235,13 +241,13 @@ export function createStore(rootDir: string) {
       known.add(resolved);
     }
 
-    if (added.length === 0 && skipped === 0) {
+    if (added.length === 0 && reused.length === 0 && skipped === 0) {
       throw new AppError("invalid_material", "没有可用的图片、视频或音频文件");
     }
     if (added.length > 0) {
       await writeMaterials([...added, ...existing]);
     }
-    return { added, skipped, truncated };
+    return { added, reused, skipped, truncated };
   }
 
   async function deleteMaterial(id: string): Promise<void> {

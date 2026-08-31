@@ -3,6 +3,7 @@ import { DEFAULT_TEMPLATE_ID } from "../src/lib/templates";
 import {
   EMPTY_WORKBENCH,
   WORKBENCH_STORAGE_KEY,
+  clearWorkbench,
   loadWorkbench,
   saveWorkbench,
 } from "../src/lib/workbench-draft";
@@ -43,6 +44,23 @@ describe("workbench draft", () => {
     const storage = memory();
     storage.setItem(WORKBENCH_STORAGE_KEY, JSON.stringify({ scripts: [] }));
     expect(loadWorkbench(storage).templateIds).toEqual(["pure-white"]);
+  });
+
+  it("clears the saved draft back to an empty workbench", () => {
+    const storage = memory();
+    saveWorkbench(
+      {
+        referenceId: "ref-1",
+        scripts: [{ title: "标题", body: "正文", captions: [{ id: "c1", text: "正文" }] }],
+        templateIds: ["red-bold"],
+        bgmId: "bgm-1",
+        showTitle: false,
+        showSubtitle: false,
+      },
+      storage,
+    );
+    expect(clearWorkbench(storage)).toEqual(EMPTY_WORKBENCH);
+    expect(loadWorkbench(storage)).toEqual(EMPTY_WORKBENCH);
   });
 
   it("drops a missing or illegal reference id", () => {

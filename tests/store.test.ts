@@ -120,6 +120,20 @@ describe("store", () => {
     expect(await readFile(photo, "utf8")).toBe("jpeg-bytes");
   });
 
+  it("returns the already-linked material instead of skipping a second import", async () => {
+    const root = await mkdtemp(path.join(os.tmpdir(), "qm-store-"));
+    const clip = path.join(root, "talking-mid-cn.mp4");
+    await writeFile(clip, "mp4-bytes");
+    const store = createStore(path.join(root, "data"));
+    const first = await store.importFiles([clip], { kinds: ["video"] });
+    const second = await store.importFiles([clip], { kinds: ["video"] });
+    expect(second.added).toHaveLength(0);
+    expect(second.skipped).toBe(0);
+    expect(second.reused).toHaveLength(1);
+    expect(second.reused[0]?.id).toBe(first.added[0]?.id);
+    expect(await store.readMaterials()).toHaveLength(1);
+  });
+
   it("clears uploaded visuals but keeps audio", async () => {
     const root = await mkdtemp(path.join(os.tmpdir(), "qm-store-"));
     const store = createStore(root);

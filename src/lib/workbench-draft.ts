@@ -84,3 +84,9 @@ export function saveWorkbench(
   storage.setItem(WORKBENCH_STORAGE_KEY, JSON.stringify(next));
   return next;
 }
+
+export function clearWorkbench(
+  storage: Pick<Storage, "setItem"> = localStorage,
+): StoredWorkbench {
+  return saveWorkbench({ ...EMPTY_WORKBENCH }, storage);
+}

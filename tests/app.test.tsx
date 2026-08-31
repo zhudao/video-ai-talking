@@ -59,6 +59,7 @@ describe("talking workspace layout", () => {
     expect(screen.getByRole("switch", { name: "显示标题" })).toHaveAttribute("aria-checked", "true");
     expect(screen.getByRole("switch", { name: "显示字幕" })).toHaveAttribute("aria-checked", "true");
     expect(screen.getByRole("button", { name: "配置" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "重置" })).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "成片库" }));
     expect(screen.getByRole("dialog", { name: "成片库" })).toBeInTheDocument();
     expect(screen.queryByLabelText("App ID")).not.toBeInTheDocument();

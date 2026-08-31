@@ -25,7 +25,8 @@ import { completeScripts, type JobScript } from "./lib/job-expand";
 import { DEFAULT_TEMPLATE_ID } from "./lib/templates";
 import type { RequirementTarget, WorkflowStep } from "./lib/job-ready";
 import { listFinishedOutputs } from "./lib/outputs";
-import { loadWorkbench, saveWorkbench } from "./lib/workbench-draft";
+import { SCRIPT_DURATION_DEFAULT } from "./lib/script-duration";
+import { clearWorkbench, loadWorkbench, saveWorkbench } from "./lib/workbench-draft";
 import {
   draftFingerprint,
   restoreWorkbenchJob,
@@ -56,6 +57,8 @@ export default function App() {
   const [highlighted, setHighlighted] = useState<WorkflowStep | null>(null);
   const [showTitle, setShowTitle] = useState(() => loadWorkbench().showTitle);
   const [showSubtitle, setShowSubtitle] = useState(() => loadWorkbench().showSubtitle);
+  const [resetOpen, setResetOpen] = useState(false);
+  const [formEpoch, setFormEpoch] = useState(0);
   const highlightTimer = useRef<number | null>(null);
   const attachedDraft = useRef<string | null>(null);
 
@@ -140,6 +143,27 @@ export default function App() {
     }, 1200);
     return () => window.clearInterval(timer);
   }, [job]);
+
+  function applyEmptyWorkbench() {
+    const empty = clearWorkbench();
+    setReferenceId(empty.referenceId);
+    setScripts(empty.scripts);
+    setTemplateIds(empty.templateIds);
+    setActiveTemplateId(empty.templateIds[0] ?? DEFAULT_TEMPLATE_ID);
+    setBgmId(empty.bgmId);
+    setShowTitle(empty.showTitle);
+    setShowSubtitle(empty.showSubtitle);
+    setJob(null);
+    attachedDraft.current = null;
+    setConfig((prev) => saveConfig({ ...prev, scriptDurationSec: SCRIPT_DURATION_DEFAULT }));
+    setFormEpoch((n) => n + 1);
+  }
+
+  function resetWorkbench() {
+    applyEmptyWorkbench();
+    setResetOpen(false);
+    toast.success("已清空填写信息，刷新后也不会恢复");
+  }
 
   function openConfig() {
     setConfigOpen(true);
@@ -267,6 +291,9 @@ export default function App() {
                     <Button type="button" variant="secondary" size="sm" onClick={() => setLibraryOpen(true)}>
                       成片库{finishedCount > 0 ? ` ${finishedCount}` : ""}
                     </Button>
+                    <Button type="button" variant="ghost" size="sm" onClick={() => setResetOpen(true)}>
+                      重置
+                    </Button>
                   </div>
                   <p className="mt-0.5 text-xs leading-4 text-muted-foreground">
                     上传一段真人视频，写好字幕，自动配音并对上口型；需要时还能切入视频素材，生成一条竖屏视频。
@@ -286,6 +313,25 @@ export default function App() {
                 />
               </div>
             </div>
+            {resetOpen ? (
+              <div
+                role="region"
+                aria-label="确认重置工作台"
+                className="mt-2 rounded-lg border border-border bg-muted/40 p-2.5 text-xs"
+              >
+                <p>
+                  将清空口播选择、BGM 选择、文案、模板和本机草稿，刷新后也不会再恢复。已添加的素材文件、配置密钥和成片库不会删除。
+                </p>
+                <div className="mt-2 flex justify-end gap-2">
+                  <Button type="button" size="sm" variant="ghost" onClick={() => setResetOpen(false)}>
+                    取消
+                  </Button>
+                  <Button type="button" size="sm" variant="danger" onClick={resetWorkbench}>
+                    确认重置
+                  </Button>
+                </div>
+              </div>
+            ) : null}
           </div>
           <ConfigPanel
             open={configOpen}
@@ -366,6 +412,7 @@ export default function App() {
               className="min-h-[280px] xl:min-h-0"
             >
               <ScriptSection
+                key={formEpoch}
                 config={config}
                 scripts={scripts}
                 materials={materials.filter((item) => item.kind !== "audio" && item.id !== referenceId)}

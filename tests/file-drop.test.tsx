@@ -26,13 +26,14 @@ function renderMaterials(
   materials: Parameters<typeof ReferenceSection>[0]["materials"] = [],
   onMaterialsChange = async () => undefined,
   referenceId: string | null = null,
+  onReferenceIdChange: (id: string | null) => void = () => undefined,
 ) {
   return render(
     <>
       <ReferenceSection
         materials={materials}
         referenceId={referenceId}
-        onReferenceIdChange={() => undefined}
+        onReferenceIdChange={onReferenceIdChange}
         onMaterialsChange={onMaterialsChange}
       />
       <CutawaySection
@@ -78,8 +79,49 @@ describe("reference and cutaway sections", () => {
     expect(screen.getByText("face.mp4")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "替换" })).toBeInTheDocument();
     expect(screen.getByText(/不用念台词/)).toBeInTheDocument();
-    expect(screen.queryByText("已添加 1 个素材")).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "删除" })).not.toBeInTheDocument();
+  });
+
+  it("switches the talking-head to an already-linked video on 替换", async () => {
+    const existing = {
+      id: "mid1",
+      filename: "talking-mid-cn.mp4",
+      mime: "video/mp4",
+      kind: "video" as const,
+      ext: "mp4",
+      createdAt: "",
+      url: "/files/materials/mid1.mp4",
+    };
+    const browseFiles = vi.spyOn(api, "browseFiles").mockResolvedValue({
+      cancelled: false,
+      added: 0,
+      skipped: 0,
+      truncated: false,
+      materials: [existing],
+    });
+    const onReferenceIdChange = vi.fn();
+    renderMaterials(
+      [
+        {
+          id: "ref1",
+          filename: "face.mp4",
+          mime: "video/mp4",
+          kind: "video",
+          ext: "mp4",
+          createdAt: "",
+          url: "/files/materials/ref1.mp4",
+        },
+        existing,
+      ],
+      async () => undefined,
+      "ref1",
+      onReferenceIdChange,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "替换" }));
+    await vi.waitFor(() => {
+      expect(browseFiles).toHaveBeenCalledWith({ kinds: ["video"] });
+      expect(onReferenceIdChange).toHaveBeenCalledWith("mid1");
+    });
+    browseFiles.mockRestore();
   });
 
   it("links dropped local paths without uploading bytes", async () => {

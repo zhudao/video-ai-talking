@@ -236,7 +236,7 @@ export function createApp(deps: AppDeps) {
       added: result.added.length,
       skipped: result.skipped,
       truncated: result.truncated,
-      materials: result.added.map(publicMaterial),
+      materials: [...result.added, ...result.reused].map(publicMaterial),
     });
   });
 
@@ -247,7 +247,7 @@ export function createApp(deps: AppDeps) {
       added: result.added.length,
       skipped: result.skipped,
       truncated: result.truncated,
-      materials: result.added.map(publicMaterial),
+      materials: [...result.added, ...result.reused].map(publicMaterial),
     });
   });
 

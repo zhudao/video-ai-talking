@@ -47,12 +47,13 @@ function currentScript(scripts: JobScript[]): JobScript {
 }
 
 async function applyLink(
-  result: { cancelled?: boolean; added: number; skipped: number; truncated: boolean },
+  result: { cancelled?: boolean; added: number; skipped: number; truncated: boolean; materials?: unknown[] },
   onMaterialsChange: () => Promise<void>,
 ) {
   if (result.cancelled) return;
-  if (result.added === 0 && result.skipped > 0) toast.message("没有符合条件的新文件");
-  else if (result.added > 0) toast.success(`已引用 ${result.added} 个素材`);
+  if (result.added > 0) toast.success(`已引用 ${result.added} 个素材`);
+  else if ((result.materials?.length ?? 0) > 0) toast.success("已选用已有素材");
+  else if (result.skipped > 0) toast.message("没有符合条件的新文件");
   if (result.truncated) toast.message("最多引用 200 个文件，其余未导入");
   await onMaterialsChange();
 }
@@ -387,7 +388,8 @@ export function BgmSection({
     if (result.cancelled) return;
     const first = result.materials[0];
     if (first) onBgmIdChange(first.id);
-    if (result.added === 0 && result.skipped > 0) toast.message("这些音频已经添加过了");
+    if (result.added === 0 && result.materials.length > 0) toast.success("已选用已有音频");
+    else if (result.added === 0 && result.skipped > 0) toast.message("这些音频已经添加过了");
     await onMaterialsChange();
   }
 

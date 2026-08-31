@@ -61,6 +61,35 @@ describe("materials api", () => {
     expect(listed[0]?.sourcePath).toBeDefined();
   });
 
+  it("returns an already-linked video so replace can switch to it", async () => {
+    const folder = await mkdtemp(path.join(os.tmpdir(), "qm-link-"));
+    const clip = path.join(folder, "talking-mid-cn.mp4");
+    await writeFile(clip, "mp4-bytes");
+    const { app } = await setup({ pickFiles: async () => [clip] });
+    const first = await app.request("/api/materials/link/browse", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kinds: ["video"] }),
+    });
+    const firstBody = (await first.json()) as { added: number; materials: Array<{ id: string }> };
+    const second = await app.request("/api/materials/link/browse", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kinds: ["video"] }),
+    });
+    const secondBody = (await second.json()) as {
+      added: number;
+      skipped: number;
+      materials: Array<{ id: string; filename: string }>;
+    };
+    expect(second.status).toBe(200);
+    expect(secondBody.added).toBe(0);
+    expect(secondBody.skipped).toBe(0);
+    expect(secondBody.materials).toHaveLength(1);
+    expect(secondBody.materials[0]?.id).toBe(firstBody.materials[0]?.id);
+    expect(secondBody.materials[0]?.filename).toBe("talking-mid-cn.mp4");
+  });
+
   it("returns cancelled when the file dialog is dismissed", async () => {
     const { app } = await setup({ pickFiles: async () => null });
     const res = await app.request("/api/materials/link/browse", { method: "POST" });
