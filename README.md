@@ -18,6 +18,8 @@
 
 ![成片库](./docs/screenshots/library.png)
 
+截图里的出镜和画面来自免费可商用素材库（如 [Pexels](https://www.pexels.com/license/)），只用来演示界面，**不是本工具的真实用户**，也不代表出镜人代言本项目。仓库自带的口播试用片及来源见 [demos/README.md](./demos/README.md)，截图说明见 [docs/screenshots/README.md](./docs/screenshots/README.md)。
+
 ## 你需要准备什么
 
 1. [Node.js](https://nodejs.org/) 20 或更高
