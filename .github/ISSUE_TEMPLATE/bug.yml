@@ -1,0 +1,28 @@
+name: 问题反馈
+description: 报告本机使用或开发中的问题
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请不要粘贴 API Key、Access Token、Cookie、素材文件、参考视频、人脸截图或成片。
+        描述问题时把密钥打码。对口型失败时说明参考视频是否为人脸近景即可，不要上传原片。
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: 1. 打开页面 2. …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望与实际
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: 环境
+      placeholder: macOS / Windows / Linux，Node 版本

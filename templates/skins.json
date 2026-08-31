@@ -1,0 +1,168 @@
+[
+  {
+    "id": "pure-white",
+    "name": "纯白",
+    "description": "纯白标题和字幕，不加描边，素材铺满裁切。",
+    "mediaFit": "cover",
+    "title": {
+      "fontSize": 76,
+      "color": "0xFFFFFF",
+      "borderColor": "0xFFFFFF",
+      "borderW": 0,
+      "yExpr": "h*0.07"
+    },
+    "subtitle": {
+      "fontSize": 68,
+      "color": "0xFFFFFF",
+      "borderColor": "0xFFFFFF",
+      "borderW": 0,
+      "yExpr": "h*0.78"
+    }
+  },
+  {
+    "id": "red-bold",
+    "name": "高级红",
+    "description": "红色粗体描边标题，底部白字红描边字幕，素材铺满裁切。",
+    "mediaFit": "cover",
+    "title": {
+      "fontSize": 80,
+      "color": "0xD83A3A",
+      "borderColor": "0xFFF4E8",
+      "borderW": 6,
+      "yExpr": "h*0.07"
+    },
+    "subtitle": {
+      "fontSize": 68,
+      "color": "0xFFFFFF",
+      "borderColor": "0xB21F2D",
+      "borderW": 5,
+      "yExpr": "h*0.78"
+    }
+  },
+  {
+    "id": "luxury-white",
+    "name": "轻奢白",
+    "description": "金白层次标题，底部白字深描边字幕，素材铺满裁切。",
+    "mediaFit": "cover",
+    "title": {
+      "fontSize": 76,
+      "color": "0xFFF9EA",
+      "borderColor": "0xD4A548",
+      "borderW": 5,
+      "yExpr": "h*0.07"
+    },
+    "subtitle": {
+      "fontSize": 68,
+      "color": "0xFFFFFF",
+      "borderColor": "0x171717",
+      "borderW": 5,
+      "yExpr": "h*0.78"
+    }
+  },
+  {
+    "id": "classic-blue",
+    "name": "经典蓝",
+    "description": "蓝色标题底板，底部白字蓝描边字幕，素材铺满裁切。",
+    "mediaFit": "cover",
+    "title": {
+      "fontSize": 76,
+      "color": "0xFFFFFF",
+      "borderColor": "0x1746A2",
+      "borderW": 3,
+      "yExpr": "h*0.07",
+      "boxColor": "0x2867D6@0.91",
+      "boxBorderW": 14
+    },
+    "subtitle": {
+      "fontSize": 68,
+      "color": "0xFFFFFF",
+      "borderColor": "0x163B78",
+      "borderW": 5,
+      "yExpr": "h*0.78"
+    }
+  },
+  {
+    "id": "shiny-yellow",
+    "name": "黄色闪亮",
+    "description": "黄色粗体黑描边标题，底部黄字黑描边字幕，素材铺满裁切。",
+    "mediaFit": "cover",
+    "title": {
+      "fontSize": 82,
+      "color": "0xFFD928",
+      "borderColor": "0x111111",
+      "borderW": 8,
+      "yExpr": "h*0.07"
+    },
+    "subtitle": {
+      "fontSize": 68,
+      "color": "0xFFE05A",
+      "borderColor": "0x111111",
+      "borderW": 6,
+      "yExpr": "h*0.78"
+    }
+  },
+  {
+    "id": "clean-yellow-white",
+    "name": "简洁黄白",
+    "description": "白色标题卡片配黄色偏移底板，底部白字黑描边字幕，素材铺满裁切。",
+    "mediaFit": "cover",
+    "title": {
+      "fontSize": 74,
+      "color": "0x161616",
+      "borderColor": "0xFFD84D",
+      "borderW": 0,
+      "yExpr": "h*0.07",
+      "boxColor": "0xFFFFFF@1",
+      "boxBorderW": 16
+    },
+    "subtitle": {
+      "fontSize": 68,
+      "color": "0xFFFFFF",
+      "borderColor": "0x171717",
+      "borderW": 5,
+      "yExpr": "h*0.78"
+    }
+  },
+  {
+    "id": "soft-pink",
+    "name": "轻透粉",
+    "description": "半透明粉色标题底板，底部粉白描边字幕，素材铺满裁切。",
+    "mediaFit": "cover",
+    "title": {
+      "fontSize": 75,
+      "color": "0xFFF4F8",
+      "borderColor": "0xB84472",
+      "borderW": 5,
+      "yExpr": "h*0.07",
+      "boxColor": "0xF4A8C8@0.72",
+      "boxBorderW": 16
+    },
+    "subtitle": {
+      "fontSize": 68,
+      "color": "0xFFF5F8",
+      "borderColor": "0x9C315C",
+      "borderW": 5,
+      "yExpr": "h*0.78"
+    }
+  },
+  {
+    "id": "hollow-white",
+    "name": "空心白",
+    "description": "白色空心描边标题和字幕，素材铺满裁切。",
+    "mediaFit": "cover",
+    "title": {
+      "fontSize": 76,
+      "color": "0xFFFFFF@0",
+      "borderColor": "0xFFFFFF",
+      "borderW": 6,
+      "yExpr": "h*0.07"
+    },
+    "subtitle": {
+      "fontSize": 68,
+      "color": "0xFFFFFF@0",
+      "borderColor": "0xFFFFFF",
+      "borderW": 5,
+      "yExpr": "h*0.78"
+    }
+  }
+]
